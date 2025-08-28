@@ -2,5 +2,3 @@ fastapi
 uvicorn[standard]
 openai-whisper
 python-multipart
-torch
-numpy
