@@ -238,6 +238,38 @@ def test_file_operations():
     except Exception as e:
         log(f"❌ File operations test failed: {e}")
 
+def create_output_directory():
+    log_separator("OUTPUT DIRECTORY CREATION")
+    try:
+        # Create public directory for Vercel
+        os.makedirs('public', exist_ok=True)
+        log("✅ Created public directory")
+        
+        # Create a simple index.html
+        with open('public/index.html', 'w') as f:
+            f.write('''<!DOCTYPE html>
+<html>
+<head>
+    <title>Transcription API</title>
+</head>
+<body>
+    <h1>Comedy Transcription API</h1>
+    <p>API is running! Use /api/transcribe to upload audio files.</p>
+    <p>Health check: <a href="/health">/health</a></p>
+</body>
+</html>''')
+        log("✅ Created public/index.html")
+        
+        # List contents of public directory
+        if os.path.exists('public'):
+            log("Contents of public directory:")
+            for item in os.listdir('public'):
+                size = os.path.getsize(os.path.join('public', item))
+                log(f"  📄 {item} ({size} bytes)")
+        
+    except Exception as e:
+        log(f"❌ Failed to create output directory: {e}")
+
 def final_summary():
     log_separator("BUILD SCRIPT SUMMARY")
     log("Build script execution completed")
@@ -260,6 +292,7 @@ def main():
         test_fastapi_import()
         test_file_operations()
         test_whisper_model()  # This might be slow, do it last
+        create_output_directory()  # Create public directory for Vercel
         final_summary()
         
     except KeyboardInterrupt:
