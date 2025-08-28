@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(title="Comedy Transcription API")
+logger.info("FastAPI app initialized")
 
 # Add CORS middleware
 app.add_middleware(
@@ -34,11 +35,14 @@ def get_model():
 
 @app.get("/")
 async def root():
+    logger.info("Root endpoint accessed")
     return {"message": "Comedy Transcription API", "status": "running"}
 
 @app.post("/api/transcribe")
 async def transcribe_audio(file: UploadFile = File(...)):
+    logger.info("Transcribe endpoint accessed")
     if not file:
+        logger.error("No file uploaded")
         raise HTTPException(status_code=400, detail="No file uploaded")
     
     # Check file type
@@ -96,6 +100,7 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
 @app.get("/health")
 async def health_check():
+    logger.info("Health check accessed")
     return {
         "status": "healthy",
         "model_loaded": model is not None
