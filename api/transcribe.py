@@ -4,16 +4,25 @@ import whisper
 import tempfile
 import os
 import logging
+import sys
+import time
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 # Create FastAPI app
+logger.info("DEPLOYMENT: Starting FastAPI app initialization...")
 app = FastAPI(title="Comedy Transcription API")
-logger.info("FastAPI app initialized")
+logger.info("DEPLOYMENT: FastAPI app initialized successfully")
+logger.info(f"DEPLOYMENT: Running on Python {sys.version}")
+logger.info(f"DEPLOYMENT: Working directory: {os.getcwd()}")
 
 # Add CORS middleware
+logger.info("DEPLOYMENT: Adding CORS middleware...")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,6 +30,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+logger.info("DEPLOYMENT: CORS middleware added successfully")
 
 # Load Whisper model (this happens once when the serverless function starts)
 model = None
@@ -28,9 +38,12 @@ model = None
 def get_model():
     global model
     if model is None:
-        logger.info("Loading Whisper model...")
+        logger.info("DEPLOYMENT: Loading Whisper model...")
+        start_time = time.time()
         model = whisper.load_model("base")
-        logger.info("Whisper model loaded successfully")
+        load_time = time.time() - start_time
+        logger.info(f"DEPLOYMENT: Whisper model loaded successfully in {load_time:.2f}s")
+        logger.info(f"DEPLOYMENT: Model device: {getattr(model, 'device', 'unknown')}")
     return model
 
 @app.get("/")
