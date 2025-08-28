@@ -3,5 +3,15 @@
     "api/transcribe.py": {
       "runtime": "@vercel/python@3.9"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/transcribe.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/transcribe.py"
+    }
+  ]
 }
