@@ -1,9 +1,4 @@
 {
-  "functions": {
-    "api/transcribe.py": {
-      "runtime": "@vercel/python"
-    }
-  },
   "routes": [
     {
       "src": "/api/(.*)",
