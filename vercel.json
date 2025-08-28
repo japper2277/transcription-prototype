@@ -4,5 +4,6 @@
       "maxDuration": 30
     }
   },
-  "buildCommand": "python3 build.py"
+  "buildCommand": "python3 build.py && mkdir -p public && echo 'API Ready' > public/index.html",
+  "outputDirectory": "public"
 }
