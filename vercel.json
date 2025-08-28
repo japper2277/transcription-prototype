@@ -1,12 +1,7 @@
 {
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/transcribe.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/api/transcribe.py"
+  "functions": {
+    "api/transcribe.py": {
+      "maxDuration": 30
     }
-  ]
+  }
 }
