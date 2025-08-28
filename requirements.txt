@@ -2,5 +2,6 @@ fastapi
 uvicorn[standard]
 openai-whisper
 python-multipart
+psutil
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch
